@@ -1,9 +1,9 @@
 package com.example.algamoneyapi.resource;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.algamoneyapi.event.RecursoCriadoEvent;
 import com.example.algamoneyapi.model.Pessoa;
 import com.example.algamoneyapi.repository.PessoaRepository;
+import com.example.algamoneyapi.repository.filter.PessoaFilter;
 import com.example.algamoneyapi.service.PessoaService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,8 +39,8 @@ public class PessoaResource {
 	private PessoaService pessoaService;
 	
 	@GetMapping
-	public List<Pessoa> listarPessoas(){		
-		return pessoaRepository.findAll();
+	public Page<Pessoa> listarPessoas(PessoaFilter pessoaFilter, Pageable pageable){		
+		return pessoaRepository.filtrar(pessoaFilter, pageable);
 	}
 			
 	@GetMapping("/{codigo}")
